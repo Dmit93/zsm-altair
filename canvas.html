@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Space X - Falcon 1</title>
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#05171c">
+    <meta name="msapplication-TileColor" content="#05171c">
+    <meta name="theme-color" content="#05171c">
+
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body onload="draw();">
+    <input type="text" id="val">
+
+    <canvas height='620' width='1400' id='canvas_app'>Обновите браузер</canvas>
+    <div class="section_kirp_list">
+        <img class="kirpich_1 kirpich" data-name="k_1" src="img/kirpich_1.jpg" alt="">
+        <img class="kirpich_2 kirpich" data-name="k_2" src="img/kirpich_2.jpg" alt="">
+        <img class="kirpich_3 kirpich" data-name="k_3" src="img/kirpich_3.jpg" alt="">
+    </div>
+    <div class="section_add_element">
+
+    </div>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/two.js/0.6.0/two.min.js" integrity="sha512-aynD23S+9Gh4yQTSbLc7cNripGLEs2YEuc9+XaOM+wKgt7q/1D4G0aXFSNAZ/xAsTOZB+YLrzLthy/g80c9Gqw==" crossorigin="anonymous"></script> -->
+    <script>
+        let section_element = document.querySelector('.section_add_element');
+
+        const arr_element = [],
+            data_element = [];
+
+        document.querySelectorAll('.section_kirp_list .kirpich').forEach((i, index) => {
+            i.addEventListener('click', function(e) {
+                if (document.querySelector('.section_add_element').childElementCount === 0) {
+                    data_element.push(i.getAttribute('data-name'));
+                    arr_element.push([i, 0]);
+                    document.querySelector('.section_add_element').insertAdjacentHTML('beforeend', `
+            <div class="element_kirp" data-id="k-${i.getAttribute('data-name')}">
+                <div class="element_kirp__picture">
+                    <img src="${i.src}">
+                </div>
+                <div>
+                    <input type="range" class="range_element">
+                </div>
+            </div>
+        `);
+                } else {
+                    if (!data_element.includes(i.getAttribute('data-name'))) {
+                        data_element.push(i.getAttribute('data-name'));
+                        arr_element.push([i, 0]);
+                        document.querySelector('.section_add_element').insertAdjacentHTML('beforeend', `
+                <div class="element_kirp" data-id="k-${i.getAttribute('data-name')}">
+                    <div class="element_kirp__picture">
+                        <img src="${i.src}">
+                    </div>
+                    <div>
+                        <input type="range" class="range_element">
+                    </div>
+                </div>
+            `);
+                    }
+
+                }
+                // draw(50, arr_element);
+            });
+        });
+
+        const arr_range = [];
+        window.addEventListener('change', function(e) {
+            if (e.target.classList.contains('range_element')) {
+                if (document.getElementsByClassName('range_element').length > 1) {
+                    arr_range.length = 0;
+                    document.querySelectorAll('.range_element').forEach(el => {
+                        arr_range.push(el.value)
+                    });
+                    draw(arr_range, arr_element)
+                } else {
+                    draw(e.target.value, arr_element)
+                }
+
+            }
+        });
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+
+        /* Фукнция рандомного числа */
+        function getUniques(min, max, n) {
+            n = n || 1;
+            if (n > max - min + 1 || n < 0) return [];
+            let t = [];
+            for (var i = 0; i < n; ++i) {
+                let a = Math.round(Math.random() * (max - min)) + min;
+                if (t[a]) --i;
+                t[a] = 1;
+            }
+            let ret = [];
+            for (i in t) ret[ret.length] = ~~i;
+            return ret;
+        }
+
+        var example = document.getElementById("canvas_app"),
+            ctx = example.getContext('2d'),
+            line = 43,
+            col = 32;
+
+        // ctx.globalCompositeOperation = 'destination-over'
+        // Now draw!
+
+
+
+        function color_show(color) {
+            // ctx.globalCompositeOperation = 'source-in'
+            ctx.fillStyle = color === undefined ? '#000' : color;
+            ctx.fillRect(0, 0, canvas_app.width, canvas_app.height);
+        }
+
+
+        function draw(quantity, ...element) {
+            ctx.clearRect(0, 0, 1400, 620);
+            //  ctx.clearRect(0, 0, 1620, 2480);
+            // console.log(element[0]);
+            // console.log(element[0]);
+            let num_val = [];
+            for (var el = 0; el < quantity.length; el++) {
+                num_val.push([getUniques(0, col, (col / 100) * parseInt(quantity[el]))]);
+            }
+
+            for (var i = 0; i < line; i++) {
+                for (var j = 0; j < col; j++) {
+
+                    if (i % 2 === 1) {
+                        if (j === 0) {
+                            ctx.translate(-45, 0);
+                        }
+                    } else {
+                        ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    }
+
+
+
+                    if (element.length > 0) {
+                        for (let s = 0; s < element[0].length; s++) {
+                            if (num_val[s][0].includes(j)) {
+                                ctx.drawImage(element[0][s][0], 0, 0, 90, 25, j * 92, i * 27, 90, 25);
+                            } else {
+                                ctx.drawImage(element[0][s++][0], 0, 0, 90, 25, j * 92, i * 27, 90, 25);
+                            }
+                            //console.log(num_val);
+                            //   for (var el = 0; el < num_val.)
+
+                        }
+                    }
+
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

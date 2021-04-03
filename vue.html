@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/input_range.css">
+</head>
+
+<body onload="draw();">
+    <div class="section_visual">
+        <div class="sidebar_left">
+            <ul>
+                <li class="logo">
+                    <img src="https://zsm-altair.ru/sites/all/themes/izkm/img/alt_logo.png" alt="">
+                </li>
+
+                <li class="menu menu_active kiprich_menu">
+                    <img src="img/kirpich.png" alt=""> Кирпич
+                </li>
+                <li class="menu show_menu" data-target="disabled">
+                    <img src="img/show.png" alt=""> Шов
+                </li>
+                <li class="menu prv_menu" data-target="disabled">
+                    <img src="img/kladka.png" alt="">Перевязка</li>
+            </ul>
+            <div class="box_kirpich container_element">
+                <div class="section_line_kirpich" data-display="true">
+                    <div class="first_cheme flex_all" data-display="true">
+                        <span>Выберите кирпич для смешивания</span>
+                        <img class="all_add_k" src="img/plus.svg" alt="">
+                    </div>
+                    <div class="block_all_kirpich" data-display="false">
+                        <div class="block_add-item">
+                            Добавить кирпич
+                            <img class="new_item" src="img/plus.svg" alt="">
+                        </div>
+                        <div id="all_list_kirpich">
+
+                        </div>
+                    </div>
+                    <div class="list_kirpich" data-display="false">
+                        <ul>
+                            <li>
+                                <p>Название кирпича</p><img class="kirpich_1 kirpich" data-name="k_1" src="img/albom_1.jpg" data-src="img/kirpich_1.jpg" alt=""> </li>
+                            <li>
+                                <p>Название кирпича</p><img class="kirpich_2 kirpich" data-name="k_2" src="img/albom_2.jpg" data-src="img/kirpich_2.jpg" alt=""> </li>
+                            <li>
+                                <p>Название кирпича</p><img class="kirpich_3 kirpich" data-name="k_3" src="img/albom_2.jpg" data-src="img/kirpich_3.jpg" alt=""></li>
+
+                            <li>
+                                <p>Название кирпича</p><img class="kirpich_4 kirpich" data-name="k_4" src="img/albom_1.jpg" data-src="img/kirpich_3.jpg" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="section_line_show" data-display="false">
+                    <p>Цвет</p>
+                    <ul>
+                        <li data-color="#000">
+                            <div>
+                                <img src="/img/show.jpg">
+                            </div>
+                            <p>Черный</p>
+                        </li>
+                        <li data-color="#ccc">
+                            <div>
+                                <img src="/img/show_2.jpg">
+                            </div>
+                            <p>Серый</p>
+                        </li>
+                        <li data-color="#cbbeb6">
+                            <div>
+                                <img src="/img/show_3.jpg">
+                            </div>
+                            <p>Бежевый</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="section_line_prv" data-display="false">
+                    <p>Перевязка</p>
+                    <ul>
+                        <li class="active" data-prv="lozhk-1">
+                            <div>
+                                <svg width="71" height="26" viewBox="0 0 71 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 18H17V26H0V18Z" fill="#8B8B8E" class="black_b"></path><path d="M18 18H35V26H18V18Z" fill="#8B8B8E" class="black_b"></path><path d="M9 9H26V17H9V9Z" fill="#8B8B8E" class="black_b"></path><path d="M36 18H53V26H36V18Z" fill="#46464D" class="color_b"></path><path d="M54 18H71V26H54V18Z" fill="#8B8B8E" class="black_b"></path><path d="M45 9H62V17H45V9Z" fill="#8B8B8E" class="black_b"></path><path d="M53 8L36 8V0L53 1.48619e-06V8Z" fill="#46464D" class="color_b"></path><path d="M35 8L18 8V0L35 1.48619e-06V8Z" fill="#8B8B8E" class="black_b"></path><path d="M44 17L27 17V9L44 9V17Z" fill="#46464D" class="color_b"></path></svg>
+                            </div>
+                            <div class="section_line_prv__text">
+                                <p class="prv_title">Ложковая</p>
+                                <p class="prv_text">смещение на 1/2</p>
+                            </div>
+                        </li>
+                        <li data-prv="lozhk-2">
+                            <div>
+                                <svg width="63" height="23" viewBox="0 0 63 23" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="40" y="7" width="17" height="7" rx="1" transform="rotate(-180 40 7)" fill="#959595" class="color_b"></rect><rect x="27" y="15" width="17" height="7" rx="1" transform="rotate(-180 27 15)" fill="#C4C4C4" class="black_b"></rect><rect x="22" y="23" width="17" height="7" rx="1" transform="rotate(-180 22 23)" fill="#C4C4C4" class="black_b"></rect><rect x="45" y="15" width="17" height="7" rx="1" transform="rotate(-180 45 15)" fill="#959595" class="color_b"></rect><rect x="40" y="23" width="17" height="7" rx="1" transform="rotate(-180 40 23)" fill="#959595" class="color_b"></rect><rect x="58" y="23" width="17" height="7" rx="1" transform="rotate(-180 58 23)" fill="#C4C4C4" class="black_b"></rect><rect x="58" y="7" width="17" height="7" rx="1" transform="rotate(-180 58 7)" fill="#C4C4C4" class="black_b"></rect><rect x="22" y="7" width="17" height="7" rx="1" transform="rotate(-180 22 7)" fill="#C4C4C4" class="black_b"></rect><rect x="9" y="15" width="9" height="7" rx="1" transform="rotate(-180 9 15)" fill="#959595" class="color_b"></rect><rect x="63" y="15" width="17" height="7" rx="1" transform="rotate(-180 63 15)" fill="#C4C4C4" class="black_b"></rect></svg>
+                            </div>
+                            <div class="section_line_prv__text">
+                                <p class="prv_title">Ложковая</p>
+                                <p class="prv_text">смещение на 1/4</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="render_visual">
+            <canvas id="canvas_app" height='620' width='1400'></canvas>
+        </div>
+    </div>
+    <script type="module" src="js/script.js"></script>
+</body>
+
+</html>
