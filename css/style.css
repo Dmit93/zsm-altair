@@ -435,6 +435,7 @@ input[type="text"]:focus {
     width: max-content;
     box-shadow: rgb(38 57 77) 0px 20px 30px -10px;
     transition: .3s ease;
+    border-radius: 10px;
 }
 
 .download_box {
