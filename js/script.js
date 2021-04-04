@@ -159,6 +159,8 @@ block_all.addEventListener('input', function(e) {
 // });
 
 const arr_range = [];
+let state_lozhk = '',
+    state_arr = [];
 window.addEventListener('change', function(e) {
     if (e.target.classList.contains('range_element')) {
         if (document.getElementsByClassName('range_element').length > 1) {
@@ -167,11 +169,11 @@ window.addEventListener('change', function(e) {
 
                 arr_range.push(el.value)
             });
-            console.log(arr_range, arr_element)
-            draw(arr_range, '', arr_element)
+
+            draw(arr_range, state_lozhk, state_arr.length === 0 ? 90 : state_arr[0], state_arr.length === 0 ? 25 : state_arr[1], arr_element)
         } else {
             arr_range.push(e.target.value);
-            draw(e.target.value, '', arr_element)
+            draw(e.target.value, state_lozhk, 90, 25, arr_element)
         }
     }
 });
@@ -203,7 +205,7 @@ var example = document.getElementById("canvas_app"),
     el_render = document.querySelector('.render_visual'),
     box_kirpich = document.querySelector('.box_kirpich'),
     line = Math.round((window.outerHeight / 38)),
-    col = Math.round(window.outerWidth / 90);
+    col = Math.round(window.outerWidth);
 
 // ctx.globalCompositeOperation = 'destination-over'
 // Now draw!
@@ -241,9 +243,19 @@ function line_transform(val, i, j) {
         } else {
             ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
+    } else if (val === 'tichk') {
+        if (i % 2 === 1) {
+            if (j === 0) {
+                ctx.translate(-25, 0);
+            }
+        } else {
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+        }
     }
 
 }
+
+
 
 document.querySelectorAll('.section_line_prv li').forEach(i => {
     i.addEventListener('click', function(e) {
@@ -251,12 +263,22 @@ document.querySelectorAll('.section_line_prv li').forEach(i => {
             el.classList.remove('active')
         });
         i.classList.add('active');
-        draw(arr_range, i.getAttribute('data-prv'), arr_element);
+        state_lozhk = i.getAttribute('data-prv');
+        if (i.getAttribute('data-prv') === 'tichk') {
+            draw(arr_range, i.getAttribute('data-prv'), 40, 25, arr_element);
+            state_arr.length = 0;
+            state_arr.push(40, 25);
+        } else {
+            draw(arr_range, i.getAttribute('data-prv'), 90, 25, arr_element);
+            state_arr.length = 0;
+            state_arr.push(90, 25);
+        }
+
     });
 });
 
 
-function draw(quantity, type_kladka, ...element) {
+function draw(quantity, type_kladka, width, height, ...element) {
     ctx.clearRect(0, 0, 1400, 620);
     //  ctx.clearRect(0, 0, 1620, 2480);
     // console.log(element);
@@ -283,7 +305,7 @@ function draw(quantity, type_kladka, ...element) {
 
 
     for (var i = 0; i < line; i++) {
-        for (var j = 0; j < col; j++) {
+        for (var j = 0; j < col / width; j++) {
 
 
             line_transform(type_kladka, i, j);
@@ -291,9 +313,6 @@ function draw(quantity, type_kladka, ...element) {
             if (element.length > 0) {
 
                 for (let s = 0; s < element[0].length; s++) {
-                    // num_val[s][0].forEach( (elem, indx) => {
-                    //     console.log(elem);
-                    // });
                     rand_numb = 0;
                     rand_numb = getUniques(0, element[0].length - 1, 1);
 
@@ -316,9 +335,9 @@ function draw(quantity, type_kladka, ...element) {
 
                     // for (let q = 0; q < num_val.length; q++) {
                     if (num_val[s][0].includes(j)) {
-                        ctx.drawImage(element[0][s][0], 0, 0, 90, 25, j * 92, i * 27, 90, 25);
+                        ctx.drawImage(element[0][s][0], 0, 0, width, height, j * (width + 2), i * (height + 2), width, height);
                     } else {
-                        ctx.drawImage(element[0][rand_numb][0], 0, 0, 90, 25, j * 92, i * 27, 90, 25);
+                        ctx.drawImage(element[0][rand_numb][0], 0, 0, width, height, j * (width + 2), i * (height + 2), width, height);
                     }
                     // }
 
