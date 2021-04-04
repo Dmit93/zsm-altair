@@ -457,6 +457,18 @@ input[type="text"]:focus {
     left: 0;
 }
 
+.download_box__hover:before {
+    content: '';
+    border: 8px solid transparent;
+    border-top: 8px solid white;
+    width: 10px;
+    position: absolute;
+    bottom: -17px;
+    left: 0;
+    right: 9px;
+    margin: auto;
+}
+
 .download_box__hover img {
     width: 47px
 }
