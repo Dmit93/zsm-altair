@@ -204,7 +204,7 @@ var example = document.getElementById("canvas_app"),
     ctx = example.getContext('2d'),
     el_render = document.querySelector('.render_visual'),
     box_kirpich = document.querySelector('.box_kirpich'),
-    line = Math.round((window.outerHeight / 38)),
+    line = Math.round((window.outerHeight)),
     col = Math.round(window.outerWidth);
 
 // ctx.globalCompositeOperation = 'destination-over'
