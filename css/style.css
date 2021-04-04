@@ -37,6 +37,8 @@ input[type="text"]:focus {
     border-radius: 7px 0 0 7px;
     position: absolute;
     height: 650px;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar_left ul {
@@ -419,6 +421,72 @@ input[type="text"]:focus {
 
 .range_element {
     position: relative;
+}
+
+.download_box__hover {
+    display: none;
+    flex-direction: column;
+    background: #ffffff;
+    padding: 22px;
+    position: absolute;
+    bottom: 60px;
+    right: -35px;
+    z-index: 9;
+    width: max-content;
+    box-shadow: rgb(38 57 77) 0px 20px 30px -10px;
+    transition: .3s ease;
+}
+
+.download_box {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.download_box>img {
+    width: 47px
+}
+
+.download_box__hover:after {
+    width: 100%;
+    height: 100%;
+    bottom: -23%;
+    position: absolute;
+    content: '';
+    left: 0;
+}
+
+.download_box__hover img {
+    width: 47px
+}
+
+.download_box:hover .download_box__hover {
+    display: flex;
+}
+
+.download_box__hover:hover {
+    box-shadow: rgb(0 0 0 / 25%) 0px 0.0625em 0.0625em, rgb(0 0 0 / 25%) 0px 0.125em 0.5em, rgb(255 255 255 / 10%) 0px 0px 0px 1px inset
+}
+
+.download_box__hover--div {
+    display: flex;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+#link_jpg {
+    margin-right: 10px;
+    z-index: 99;
+}
+
+.download_box__hover--div {
+    cursor: pointer;
+}
+
+#link_svg img {
+    opacity: .25;
+    pointer-events: visibleFill;
 }
 
 @font-face {
