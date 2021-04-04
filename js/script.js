@@ -210,7 +210,11 @@ var example = document.getElementById("canvas_app"),
 // ctx.globalCompositeOperation = 'destination-over'
 // Now draw!
 
-
+document.querySelector('#link_jpg').addEventListener('click', function(e) {
+    var link = document.getElementById('link_jpg');
+    link.setAttribute('download', 'picture.png');
+    link.setAttribute('href', example.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"));
+});
 
 // function color_show(color) {
 //     // ctx.globalCompositeOperation = 'source-in'
