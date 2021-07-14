@@ -178,51 +178,6 @@ let state_lozhk = '',
     temporal_val = [];
 window.addEventListener('change', function(e) {
 
-    // let id = e.target.getAttribute('data-id');
-
-    // let v_arr = []
-    // arr_element.forEach((i, index) => {
-    //     if (i.includes(id)) {
-    //         v_arr.push(i);
-    //         arr_element.splice(index, 1);
-    //     }
-    //     if (v_arr[0] === id) {
-    //         arr_element.push(v_arr);
-    //     }
-    // });
-
-
-    // for (let f = 0; f < arr_element.length; f++) {
-    //     if (arr_element[f][0].length !== 0) {
-    //         if (arr_element[f][0].getAttribute('data-name').includes(id)) {
-    //             if (arr_element.length === -1) {
-    //                 console.log(arr_element);
-    //             } else {
-    //                 temporal_val = arr_element.slice(f, 1);
-    //                 arr_element.push(temporal_val);
-    //             }
-
-    //             //  arr_element.splice(f, 1);
-
-    //         }
-    //     }
-    // }
-
-
-    /* НУЖНО УДАЛИТЬ ЭЛЕМЕНТ ИЗ МАССИВА КОТОРЫЙ В ДАННЫЙ МОМЕНТ АКТИВНЫЙ И ДОБАВИТЬ В КОНЕЦ */
-
-    // arr_element.forEach(i => {
-    //     if (i[1].includes(e.target.getAttribute('data-id'))) {
-    //         console.log(i)
-    //         if (i.indexOf(e.target.getAttribute('data-id')) !== -1) {
-    //             // console.log(index_arr);
-    //             arr_element.slice(i.indexOf(e.target.getAttribute('data-id')), 1);
-    //             console.log(arr_element);
-    //             //arr_element.push(e_perem);
-    //         }
-    //     }
-    // })
-
     if (e.target.classList.contains('range_element')) {
         if (document.getElementsByClassName('range_element').length > 1) {
             arr_range.length = 0;
@@ -232,8 +187,8 @@ window.addEventListener('change', function(e) {
                     if (el.closest('.element_kirp').hasAttribute('data-src') === false) {
                         arr_range.push(el.value)
                     } else {
-                        for (var i = 0; i < 2; i++) {
-                            arr_range.push(e.target.value / 2);
+                        for (var i = 0; i < el.closest('.element_kirp').dataset.src.split(',').length; i++) {
+                            arr_range.push(el.value / 2);
                         }
                     }
                 });
@@ -241,7 +196,7 @@ window.addEventListener('change', function(e) {
             } else {
                 document.querySelectorAll('.range_element').forEach(el => {
                     if (el.closest('.element_kirp').hasAttribute('data-src') !== false) {
-                        for (var i = 0; i < 2; i++) {
+                        for (var i = 0; i < el.closest('.element_kirp').dataset.src.split(',').length; i++) {
                             arr_range.push(el.value / 2);
                         }
                     } else {
@@ -354,7 +309,8 @@ var example = document.getElementById("canvas_app"),
     line = 40,
     width_kirpich = 70,
     height_kirpich = 20,
-    col = window.outerWidth / width_kirpich;
+    col = (window.outerWidth > 500) ? window.outerWidth / width_kirpich : 15;
+//  col = 20;
 
 // ctx.globalCompositeOperation = 'destination-over'
 // Now draw!
@@ -490,8 +446,8 @@ function draw(quantity, type_kladka, width, height, ...element) {
 
     if (typeof(quantity) === 'string') {
         if (element[0].length > 1) {
-            element[0].forEach(i => {
-                quantity_numbers.push(11)
+            element[0].forEach((i, ind, arr) => {
+                quantity_numbers.push((col / 100) * (100 / arr.length));
             })
         } else {
             quantity_numbers.push(100)
@@ -665,9 +621,10 @@ function delete_item(e) {
         let id = e.target.getAttribute('data-el');
         let element = e.target.closest('.element_kirp').querySelector('.element_kirp__picture img');
         if (e.target.closest('.element_kirp').hasAttribute('data-src')) {
+
             e.target.closest('.element_kirp').dataset.src.split(',').forEach(els => {
-                delete_data_arr(els);
-                delete_arr_element(els);
+                delete_data_arr(e.target.dataset.el);
+                delete_arr_element(e.target.dataset.el);
             });
         } else {
             delete_data_arr(id);
@@ -702,4 +659,17 @@ function delete_arr_element(arg) {
 document.querySelector('.container_element').addEventListener('click', function(e) {
     delete_item(e);
     edit_item(e);
+});
+
+document.querySelector('.popap_open_section').addEventListener('click', function(e) {
+    if (this.getAttribute('data-visual') === 'false') {
+        this.setAttribute('data-visual', 'true');
+        this.innerHTML = '<img src="img/close-eyes.svg">Вернуться';
+        document.querySelector('.sidebar_left').style.opacity = 0;
+    } else {
+        this.setAttribute('data-visual', 'false');
+        this.innerHTML = '<img src="img/focus.svg">Просмотр';
+        document.querySelector('.sidebar_left').style.opacity = 1;
+    }
+
 });
