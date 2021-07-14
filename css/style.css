@@ -231,12 +231,12 @@ input[type="text"]:focus {
     overflow-y: auto
 }
 
-.block_all_kirpich::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 4px;
     background-color: rgba(116, 94, 101, 0.4)
 }
 
-.block_all_kirpich::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     height: 40px;
     background-color: var(--color)
 }
@@ -276,7 +276,8 @@ input[type="text"]:focus {
 .list_kirpich {
     height: 100%;
     padding-top: 35px;
-    width: 100%
+    width: 100%;
+    overflow-y: scroll;
 }
 
 .list_kirpich ul {
@@ -296,6 +297,7 @@ input[type="text"]:focus {
     object-fit: cover;
     height: 80px;
     border-radius: 50px;
+    filter: brightness(0.6);
 }
 
 .list_kirpich ul li p {
@@ -304,6 +306,9 @@ input[type="text"]:focus {
     top: 50%;
     color: #fff;
     transform: translateY(-50%);
+    font-size: 15px;
+    font-weight: bold;
+    z-index: 9
 }
 
 #all_list_kirpich {
@@ -497,9 +502,113 @@ input[type="text"]:focus {
     cursor: pointer;
 }
 
-#link_svg img {
-    opacity: .25;
-    pointer-events: visibleFill;
+#link_pdf {
+    z-index: 99
+}
+
+#link_pdf img {
+    cursor: pointer;
+    z-index: 99;
+}
+
+.popap_open_section {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    padding: 10px;
+    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+    cursor: pointer;
+}
+
+.popap_open_section img {
+    width: 28px;
+}
+
+@media (max-width:600px) {
+    .popap_open_section {
+        display: flex
+    }
+    .sidebar_left {
+        padding-top: 0px;
+        margin: 0;
+        max-height: 133px;
+        width: 100%
+    }
+    .sidebar_left ul {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 100px;
+    }
+    .download_box {
+        margin-top: 4px
+    }
+    .container_element {
+        top: auto;
+        bottom: -100vh;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100vh;
+    }
+    .sidebar_left ul li {
+        padding: 13px;
+        justify-content: center;
+    }
+    .sidebar_left ul img {
+        width: 40px
+    }
+    .element_kirp {
+        padding: 0 85px
+    }
+    .container_element .section_line_show ul,
+    .section_line_prv ul {
+        flex-direction: column;
+        margin-top: 110px;
+    }
+    .container_element .section_line_show ul li {
+        padding-left: 30%;
+        justify-content: end;
+    }
+    .list_kirpich ul {
+        height: max-content
+    }
+    .list_kirpich ul li p {
+        left: 0;
+        right: 0;
+        text-align: center
+    }
+    .download_box {
+        bottom: 0px;
+        z-index: 999;
+        position: fixed;
+        left: 0;
+        right: 0;
+        border-top: 1px solid #ccc;
+    }
+    .download_box__img {
+        position: relative;
+        top: 7px;
+    }
+    .download_box__hover {
+        left: 0;
+        right: 0;
+        margin: auto;
+        bottom: -141px;
+    }
+    .download_box__hover:before {
+        border-bottom: 8px solid white;
+        bottom: auto;
+        top: -7px;
+        left: 0;
+        right: 0;
+        border-top: 0
+    }
 }
 
 @font-face {
