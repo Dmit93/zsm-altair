@@ -53,27 +53,10 @@ function work_add_item(e) {
                 menu.removeAttribute('data-target');
             });
 
-            setTimeout(() => draw([33, 33, 33], state_lozhk, 75, 20, arr_element), 100)
+            setTimeout(() => draw([33, 33, 33], state_lozhk, 75, 20, arr_element), 500)
 
 
-        }
-        /*else if (document.querySelector('#all_list_kirpich').childElementCount < 2) {
-                   if (!data_element.includes(e.target.getAttribute('data-name'))) {
-                       add_item(e);
-                       arr_range.length = 0;
-                       document.querySelectorAll('.range_element').forEach(el => {
-                           arr_range.push(el.value / 2, el.value / 2, el.value / 2)
-                       });
-
-                       setTimeout(() => draw(arr_range, state_lozhk, 75, 20, arr_element), 100)
-
-                   } else {
-                       e.target.closest('.list_kirpich').dataset.display = false;
-                       block_all.dataset.display = true;
-                   }
-
-               } */
-        else if (document.querySelector('#all_list_kirpich').childElementCount >= 1) {
+        }else if (document.querySelector('#all_list_kirpich').childElementCount >= 1) {
             if (!data_element.includes(e.target.getAttribute('data-name'))) {
                 add_item(e);
                 arr_range.length = 0;
@@ -83,7 +66,7 @@ function work_add_item(e) {
                     });
                 });
 
-                setTimeout(() => draw(arr_range, state_lozhk, 75, 20, arr_element), 200)
+                setTimeout(() => draw(arr_range, state_lozhk, 75, 20, arr_element), 500)
 
             } else {
                 e.target.closest('.list_kirpich').dataset.display = false;
