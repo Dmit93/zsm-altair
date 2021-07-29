@@ -6,7 +6,25 @@ const block_all = document.querySelector('.block_all_kirpich'),
     list_kp = document.querySelector('.list_kirpich'),
     new_item = document.querySelector('.new_item'),
     arr_element = [],
-    data_element = [];
+    data_element = [],
+    arr_range = [],
+    state_arr = [],
+    temporal_val = [],
+    dbl_arr = [],
+    array_result = [],
+    num_val = [],
+    all_number_arr = [];
+let state_lozhk = 'lozhk-1',
+    perem_val = [],
+    example = document.getElementById("canvas_app"),
+    ctx = example.getContext('2d'),
+    el_render = document.querySelector('.render_visual'),
+    box_kirpich = document.querySelector('.box_kirpich'),
+    line = 40,
+    width_kirpich = 70,
+    height_kirpich = 20,
+    col = (window.outerWidth > 500) ? window.outerWidth / width_kirpich : 15;
+//  col = 20;
 
 document.querySelector('.all_add_k').addEventListener('click', function(e) {
     this.parentElement.dataset.display = false;
@@ -24,32 +42,8 @@ new_item.addEventListener('click', function(e) {
 });
 
 
-
-/* Возможная функция -  при наведение всплывает окно с данными */
-//console.log(data_attr.k1);
-
-// document.querySelector('.section_line_kirpich').addEventListener('mouseover', function(e) {
-//     hover_attr(e)
-// });
-
-
-
-// function hover_attr(e) {
-//     if (e.target.classList.contains('element_kirp__picture')) {
-//         let id = e.target.closest('.element_kirp').dataset.id;
-//         let spl_id = id.slice(2);
-//         console.log(spl_id);
-
-//         e.target.nextElementSibling.insertAdjacentHTML('beforeend', `
-//            <span class="el_id__popap">${id}</span>
-//            <p class="title_popap">${data_attr[spl_id]}</p>
-//         `);
-//     }
-// }
-
 list_kp.addEventListener('click', work_add_item);
-let perem_val = [],
-    dbl_arr = [];
+
 
 function work_add_item(e) {
     if (e.target.classList.contains('kirpich')) {
@@ -59,14 +53,42 @@ function work_add_item(e) {
                 menu.removeAttribute('data-target');
             });
 
-        } else {
+            setTimeout(() => draw([33, 33, 33], state_lozhk, 75, 20, arr_element), 100)
+
+
+        }
+        /*else if (document.querySelector('#all_list_kirpich').childElementCount < 2) {
+                   if (!data_element.includes(e.target.getAttribute('data-name'))) {
+                       add_item(e);
+                       arr_range.length = 0;
+                       document.querySelectorAll('.range_element').forEach(el => {
+                           arr_range.push(el.value / 2, el.value / 2, el.value / 2)
+                       });
+
+                       setTimeout(() => draw(arr_range, state_lozhk, 75, 20, arr_element), 100)
+
+                   } else {
+                       e.target.closest('.list_kirpich').dataset.display = false;
+                       block_all.dataset.display = true;
+                   }
+
+               } */
+        else if (document.querySelector('#all_list_kirpich').childElementCount >= 1) {
             if (!data_element.includes(e.target.getAttribute('data-name'))) {
                 add_item(e);
+                arr_range.length = 0;
+                document.querySelectorAll('.range_element').forEach((el, ind, arr) => {
+                    el.closest('.element_kirp').getAttribute('data-src').split(',').forEach((elems, index, array) => {
+                        arr_range.push(el.value / (arr.length + 1));
+                    });
+                });
+
+                setTimeout(() => draw(arr_range, state_lozhk, 75, 20, arr_element), 200)
+
             } else {
                 e.target.closest('.list_kirpich').dataset.display = false;
                 block_all.dataset.display = true;
             }
-
         }
         document.querySelectorAll('.list_kirpich li img').forEach(i => {
             i.style = '';
@@ -90,11 +112,11 @@ function add_item(e) {
         document.querySelector('#all_list_kirpich').insertAdjacentHTML('beforeend', `
         <div class="element_kirp" data-id="k-${e.target.getAttribute('data-name')}" data-src="${e.target.getAttribute('data-src')}">
         <div class="element_kirp__picture">
-            <img class="element_kirp__picture--img" src="${e.target.src}">
+            <img class="element_kirp__picture--img" src="${e.target.dataset.album}">
             <div class="popap_attr_element"></div>
         </div>
         <div class="element_kirp__title">
-            ${e.target.previousElementSibling.innerText}
+            ${e.target.closest('.prev_menu__title-top').children[0].innerText + '<br>(фактура) - ' + e.target.getAttribute('data-menu')}
         </div>
         <div class="element_kirp__input flex_all">
         <input type="range" class="range_element" data-id="${e.target.getAttribute('data-name')}">
@@ -115,11 +137,11 @@ function add_item(e) {
         document.querySelector('#all_list_kirpich').insertAdjacentHTML('beforeend', `
         <div class="element_kirp" data-id="k-${e.target.getAttribute('data-name')}">
         <div class="element_kirp__picture">
-            <img class="element_kirp__picture--img" src="${e.target.src}">
+            <img class="element_kirp__picture--img" src="${e.target.dataset.album}">
             <div class="popap_attr_element"></div>
         </div>
         <div class="element_kirp__title">
-            ${e.target.previousElementSibling.innerText}
+        ${e.target.closest('.prev_menu__title-top').children[0].innerText + '<br>(фактура) - ' + e.target.getAttribute('data-menu')}
         </div>
         <div class="element_kirp__input flex_all">
         <input type="range" class="range_element" data-id="${e.target.getAttribute('data-name')}">
@@ -137,7 +159,6 @@ function add_item(e) {
 
 block_all.addEventListener('input', function(e) {
     if (e.target.classList.contains('range_element')) {
-        // arr_element.push(e.target.closest('.element_kirp').querySelector('img'));
         const val_input = [];
         let vremen = perem_val[0];
         e.target.nextElementSibling.value = e.target.value;
@@ -160,22 +181,7 @@ block_all.addEventListener('input', function(e) {
 });
 
 
-// document.querySelectorAll('.range_element').forEach((el, index) => {
-//     console.log(arr_new);
-//     if (el.getAttribute('data-id') === arr_element[index][1]) {
 
-//         arr_new.unshift(arr_element[index]);
-//     } else {
-//         console.log(arr_element[index]);
-//         arr_new.push(arr_element[index]);
-//     }
-
-// });
-
-const arr_range = [];
-let state_lozhk = '',
-    state_arr = [],
-    temporal_val = [];
 window.addEventListener('change', function(e) {
 
     if (e.target.classList.contains('range_element')) {
@@ -188,7 +194,7 @@ window.addEventListener('change', function(e) {
                         arr_range.push(el.value)
                     } else {
                         for (var i = 0; i < el.closest('.element_kirp').dataset.src.split(',').length; i++) {
-                            arr_range.push(el.value / 2);
+                            arr_range.push(el.value / el.closest('.element_kirp').dataset.src.split(',').length);
                         }
                     }
                 });
@@ -207,26 +213,6 @@ window.addEventListener('change', function(e) {
 
             }
 
-
-            // arr_element.forEach((i, ind) => {
-            //     if (i.includes(e.target.getAttribute('data-id'))) {
-            //         arr_element.splice(ind, 1);
-            //         arr_element.push(i);
-            //         arr_range.forEach((elem, index) => {
-            //             if (elem.includes(e.target.value)) {
-
-            //                 arr_range.splice(index, 1);
-            //                 arr_range.push(elem);
-            //             }
-            //         });
-
-
-            //     }
-            // });
-
-
-
-
             draw(arr_range, state_lozhk, state_arr.length === 0 ? 75 : state_arr[0], state_arr.length === 0 ? 20 : state_arr[1], arr_element)
         } else {
             arr_range.length = 0
@@ -243,11 +229,6 @@ window.addEventListener('change', function(e) {
     }
 });
 
-// function getRandomInt(min, max) {
-//     min = Math.ceil(min);
-//     max = Math.floor(max);
-//     return Math.floor(Math.random() * (max - min + 1)) + min;
-// }
 
 /* Фукнция рандомного числа */
 // function getUniques(min, max, n) {
@@ -264,18 +245,6 @@ window.addEventListener('change', function(e) {
 //     return ret;
 // }
 
-// function getUniques(min, range, count) {
-//     let m = {};
-//     let a = [];
-//     for (let i = 0; i < count; ++i) {
-//         let r = Math.round(Math.random() * (range - i));
-//         a.push(((r in m) ? m[r] : r) + 1);
-//         let l = range - i - 1;
-//         m[r] = (l in m) ? m[l] : l;
-//     }
-
-//     return a;
-// }
 
 function getUniques(min, max) {
     let random_start = min, // От какого генерировать
@@ -291,29 +260,12 @@ function getUniques(min, max) {
         .map(function(elem, index) { return [elem, Math.random()] })
         .sort(function(a, b) { return a[1] - b[1] })
         .map(function(elem) { return elem[0] })
-
-
-
-    // for (var countCycles = 1; countCycles <= allСycles; countCycles++) {
-    //     result_arr.push(array.splice(Math.random() * array.length, 1)[0]);
-    // }
-    // return result_arr;
 }
 
 
 
-var example = document.getElementById("canvas_app"),
-    ctx = example.getContext('2d'),
-    el_render = document.querySelector('.render_visual'),
-    box_kirpich = document.querySelector('.box_kirpich'),
-    line = 40,
-    width_kirpich = 70,
-    height_kirpich = 20,
-    col = (window.outerWidth > 500) ? window.outerWidth / width_kirpich : 15;
-//  col = 20;
 
-// ctx.globalCompositeOperation = 'destination-over'
-// Now draw!
+
 
 document.querySelector('#link_jpg').addEventListener('click', function(e) {
     var link = document.getElementById('link_jpg');
@@ -402,7 +354,7 @@ document.querySelectorAll('.section_line_prv li').forEach(i => {
     });
 });
 
-let array_result = []
+
 
 function slice_arr(arr, col_iter, size) {
     let array_n = [];
@@ -436,8 +388,7 @@ function slice_arr(arr, col_iter, size) {
 
 
 
-let num_val = [],
-    all_number_arr = [];
+
 
 function draw(quantity, type_kladka, width, height, ...element) {
     ctx.clearRect(0, 0, 1400, 620);
@@ -459,7 +410,7 @@ function draw(quantity, type_kladka, width, height, ...element) {
         });
     }
 
-    console.log(quantity_numbers)
+    console.log(quantity_numbers, type_kladka, width, height, ...element)
 
 
     // for (var el = 0; el < quantity.length; el++) {
@@ -476,13 +427,17 @@ function draw(quantity, type_kladka, width, height, ...element) {
             all_number_arr.length = 0;
             num_val.push(getUniques(0, col - 1));
             all_number_arr.push(slice_arr(num_val[0], quantity_numbers.length - 1, quantity_numbers));
-
+            // console.log(all_number_arr)
             line_transform(type_kladka, i, j);
 
             all_number_arr[0].forEach((el, index) => {
                 all_number_arr[0][index].forEach((elem, ind, arr) => {
                     if (elem === j) {
                         ctx.drawImage(element[0][index][0], 0, 0, width, height, j * (width + 2), i * (height + 2), width, height);
+                        ctx.shadowColor = "#000000b3";
+                        ctx.shadowBlur = 1;
+                        ctx.shadowOffsetX = -1;
+                        ctx.shadowOffsetY = 1;
                     }
                 })
             })
@@ -570,6 +525,12 @@ document.querySelectorAll('.menu').forEach(i => {
             el.classList.remove('menu_active');
         });
         i.classList.add('menu_active');
+    });
+});
+
+document.querySelectorAll('.all_factur').forEach(i => {
+    i.addEventListener('click', function(e) {
+        i.nextElementSibling.classList.toggle('active');
     });
 });
 
