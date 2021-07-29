@@ -62,7 +62,7 @@ function work_add_item(e) {
                 arr_range.length = 0;
                 document.querySelectorAll('.range_element').forEach((el, ind, arr) => {
                     el.closest('.element_kirp').getAttribute('data-src').split(',').forEach((elems, index, array) => {
-                        arr_range.push(el.value / (arr.length + 1));
+                        arr_range.push(50 / (arr.length + 1));
                     });
                 });
 
