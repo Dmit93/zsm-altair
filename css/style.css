@@ -79,6 +79,10 @@ input[type="text"]:focus {
 }
 
 .section_line_prv ul li {
+    margin-bottom: 0;
+}
+
+.section_line_prv ul li {
     flex-direction: row;
     justify-content: center;
     padding: 20px 0;
