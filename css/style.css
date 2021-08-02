@@ -110,7 +110,7 @@ input[type="text"]:focus {
 }
 
 .section_line_prv p {
-    color: #000
+    color: #fff
 }
 
 .section_line_prv__text {
@@ -149,7 +149,7 @@ input[type="text"]:focus {
 }
 
 .container_element {
-    background: #fff;
+    background: #302f2f;
     position: absolute;
     width: 295px;
     right: -295px;
@@ -160,6 +160,7 @@ input[type="text"]:focus {
 
 .section_line_show {
     margin-top: 30px;
+    color: #fff
 }
 
 .section_line_show .active {
@@ -173,7 +174,7 @@ input[type="text"]:focus {
 }
 
 .container_element .section_line_show ul li {
-    color: #000;
+    color: #fff;
     flex-direction: row;
     font-size: 18px;
     padding: 20px 6px 20px 26px;
@@ -668,7 +669,7 @@ ul.menu_all_kirp li {
         max-height: 133px;
         width: 100%
     }
-    .sidebar_left ul {
+    .sidebar_left>ul {
         display: flex;
         justify-content: center;
         width: 100%;
@@ -685,15 +686,12 @@ ul.menu_all_kirp li {
         width: 100%;
         height: 100vh;
     }
-    .sidebar_left ul li {
+    .sidebar_left>ul li {
         padding: 13px;
         justify-content: center;
     }
-    .sidebar_left ul img {
+    .sidebar_left>ul img {
         width: 40px
-    }
-    .element_kirp {
-        padding: 0 85px
     }
     .container_element .section_line_show ul,
     .section_line_prv ul {
@@ -704,7 +702,7 @@ ul.menu_all_kirp li {
         padding-left: 30%;
         justify-content: end;
     }
-    .list_kirpich ul {
+    .list_kirpich>ul {
         height: max-content
     }
     .list_kirpich ul li p {
