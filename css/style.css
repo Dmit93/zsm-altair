@@ -472,7 +472,7 @@ input[type="text"]:focus {
     padding: 22px;
     position: absolute;
     bottom: 60px;
-    right: -35px;
+    right: -86px;
     z-index: 9;
     width: max-content;
     box-shadow: rgb(38 57 77) 0px 20px 30px -10px;
@@ -508,7 +508,7 @@ input[type="text"]:focus {
     position: absolute;
     bottom: -16px;
     left: 0;
-    right: 9px;
+    right: 83px;
     margin: auto;
 }
 
