@@ -278,10 +278,10 @@ input[type="text"]:focus {
     height: auto;
     justify-content: center;
     padding: 15px 0;
-    position: absolute;
+    /* position: absolute;
     bottom: 0;
     left: 0;
-    right: 0;
+    right: 0; */
     background: #4d4d4d;
     z-index: 9;
 }
@@ -325,7 +325,7 @@ input[type="text"]:focus {
 #all_list_kirpich {
     display: flex;
     align-items: center;
-    padding: 20px 0 40px 0;
+    padding: 20px 0 0 0;
 }
 
 .element_kirp__title {
@@ -348,6 +348,10 @@ input[type="text"]:focus {
     overflow: hidden;
     width: 100%;
     padding: 0 10px;
+}
+
+.element_kirp:last-child {
+    margin-bottom: 10px;
 }
 
 .element_kirp img {
@@ -663,6 +667,29 @@ ul.menu_all_kirp li {
     background-color: #fff
 }
 
+.block_prev_layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4d4d4d;
+    padding: 7px 0;
+}
+
+.block_prev_layout p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    border: 2px solid #fff;
+    width: 28px;
+    height: 28px;
+}
+
+.block_prev_layout img {
+    width: 13px;
+    cursor: pointer;
+}
+
 @media (max-width:600px) {
     .popap_open_section {
         display: flex
@@ -717,7 +744,7 @@ ul.menu_all_kirp li {
     .download_box {
         bottom: 0px;
         z-index: 999;
-        position: fixed;
+        position: absolute;
         left: 0;
         right: 0;
         border-top: 1px solid #ccc;
