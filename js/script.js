@@ -65,7 +65,7 @@ function work_add_item(e) {
                 menu.removeAttribute('data-target');
             });
 
-            setTimeout(() => draw([33, 33, 33], state_lozhk, state_arr.length === 0 ? 75 : state_arr[0], state_arr.length === 0 ? 20 : state_arr[1], arr_element), 500)
+            setTimeout(() => draw([33, 33, 34], state_lozhk, state_arr.length === 0 ? 75 : state_arr[0], state_arr.length === 0 ? 20 : state_arr[1], arr_element), 500)
 
 
         } else if (document.querySelector('#all_list_kirpich').childElementCount >= 1) {
@@ -408,7 +408,7 @@ function draw(quantity, type_kladka, width, height, ...element) {
     if (typeof(quantity) === 'string') {
         if (element[0].length > 1) {
             element[0].forEach((i, ind, arr) => {
-                quantity_numbers.push((col / 100) * (100 / arr.length));
+                quantity_numbers.push(Math.ceil((col / 100) * (100 / arr.length)));
             })
         } else {
             quantity_numbers.push(100)
@@ -416,7 +416,7 @@ function draw(quantity, type_kladka, width, height, ...element) {
 
     } else if (typeof(quantity) === 'object') {
         quantity.forEach((elem, index) => {
-            quantity_numbers.push((col / 100) * elem)
+            quantity_numbers.push(Math.ceil((col / 100) * elem))
         });
     }
 
@@ -579,7 +579,7 @@ function delete_item(e) {
                 }
             });
         } else {
-            arr_range.push(33, 33, 33)
+            arr_range.push(33, 33, 34)
         }
 
 
