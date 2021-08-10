@@ -99,7 +99,7 @@ function add_item(e) {
     let target = e.target.getAttribute('data-src') || e.target.parentNode.getAttribute('data-src');
     let data_name = e.target.parentNode.getAttribute('data-name') || e.target.getAttribute('data-name');
     let data_menu = e.target.parentNode.getAttribute('data-menu') || e.target.getAttribute('data-menu');
-    let text_title = e.target.closest('li').querySelector('p').innerText;
+    let text_title = e.target.closest('.prev_menu__li').querySelector('p').innerText;
     let album = e.target.dataset.album || e.target.parentNode.getAttribute('data-album');
     if ((e.target.parentNode.tagName === 'LI' && e.target.parentNode.getAttribute('data-src').split(',').length > 1) || e.target.getAttribute('data-src').split(',').length > 1) {
         target.split(',').forEach(el => {
