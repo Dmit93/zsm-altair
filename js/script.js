@@ -5,6 +5,7 @@
 const block_all = document.querySelector('.block_all_kirpich'),
     list_kp = document.querySelector('.list_kirpich'),
     new_item = document.querySelector('.new_item'),
+    prev_layout = document.querySelector('.prev_visual'),
     arr_element = [],
     data_element = [],
     arr_range = [],
@@ -31,6 +32,16 @@ document.querySelector('.all_add_k').addEventListener('click', function(e) {
     document.querySelector('.list_kirpich').dataset.display = true
 });
 
+prev_layout.addEventListener('click', function(e) {
+    this.closest('.block_all_kirpich').dataset.display = false;
+    list_kp.dataset.display = true;
+    if (document.querySelector('#all_list_kirpich').childElementCount === 0) {
+        document.querySelectorAll('.list_kirpich li img').forEach(elem => {
+            elem.style = '';
+        });
+    }
+});
+
 new_item.addEventListener('click', function(e) {
     this.closest('.block_all_kirpich').dataset.display = false;
     list_kp.dataset.display = true;
@@ -46,18 +57,19 @@ list_kp.addEventListener('click', work_add_item);
 
 
 function work_add_item(e) {
-    if (e.target.classList.contains('kirpich')) {
+    console.log(e.target.tagName, e.target.parentNode.tagName);
+    if (e.target.classList.contains('kirpich') || e.target.parentNode.tagName === 'LI') {
         if (document.querySelector('#all_list_kirpich').childElementCount === 0) {
             add_item(e);
             document.querySelectorAll('.menu').forEach(menu => {
                 menu.removeAttribute('data-target');
             });
 
-            setTimeout(() => draw([33, 33, 33], state_lozhk, 75, 20, arr_element), 500)
+            setTimeout(() => draw([33, 33, 33], state_lozhk, state_arr.length === 0 ? 75 : state_arr[0], state_arr.length === 0 ? 20 : state_arr[1], arr_element), 500)
 
 
-        }else if (document.querySelector('#all_list_kirpich').childElementCount >= 1) {
-            if (!data_element.includes(e.target.getAttribute('data-name'))) {
+        } else if (document.querySelector('#all_list_kirpich').childElementCount >= 1) {
+            if (!data_element.includes(e.target.getAttribute('data-name') || e.target.parentNode.getAttribute('data-name'))) {
                 add_item(e);
                 arr_range.length = 0;
                 document.querySelectorAll('.range_element').forEach((el, ind, arr) => {
@@ -66,7 +78,7 @@ function work_add_item(e) {
                     });
                 });
 
-                setTimeout(() => draw(arr_range, state_lozhk, 75, 20, arr_element), 500)
+                setTimeout(() => draw(arr_range, state_lozhk, state_arr.length === 0 ? 75 : state_arr[0], state_arr.length === 0 ? 20 : state_arr[1], arr_element), 500)
 
             } else {
                 e.target.closest('.list_kirpich').dataset.display = false;
@@ -78,59 +90,64 @@ function work_add_item(e) {
         });
     }
 
-    if (e.target.classList.contains('range_element')) {
-        e.target.nextElementSibling.value = e.target.value
-    }
+    // if (e.target.classList.contains('range_element')) {
+    //     e.target.nextElementSibling.value = e.target.value
+    // }
 }
 
 function add_item(e) {
-    if (e.target.getAttribute('data-src').split(',').length > 1) {
-        e.target.getAttribute('data-src').split(',').forEach(el => {
+    let target = e.target.getAttribute('data-src') || e.target.parentNode.getAttribute('data-src');
+    let data_name = e.target.parentNode.getAttribute('data-name') || e.target.getAttribute('data-name');
+    let data_menu = e.target.parentNode.getAttribute('data-menu') || e.target.getAttribute('data-menu');
+    let text_title = e.target.closest('li').querySelector('p').innerText;
+    let album = e.target.dataset.album || e.target.parentNode.getAttribute('data-album');
+    if ((e.target.parentNode.tagName === 'LI' && e.target.parentNode.getAttribute('data-src').split(',').length > 1) || e.target.getAttribute('data-src').split(',').length > 1) {
+        target.split(',').forEach(el => {
             let img = new Image();
             img.src = el;
-            img.setAttribute('data-name', e.target.getAttribute('data-name'));
-            data_element.push(e.target.getAttribute('data-name'));
-            arr_element.push([img, e.target.getAttribute('data-name')]);
+            img.setAttribute('data-name', data_name);
+            data_element.push(data_name);
+            arr_element.push([img, data_name]);
         });
         document.querySelector('#all_list_kirpich').insertAdjacentHTML('beforeend', `
-        <div class="element_kirp" data-id="k-${e.target.getAttribute('data-name')}" data-src="${e.target.getAttribute('data-src')}">
+        <div class="element_kirp" data-id="k-${data_name}" data-src="${target}">
         <div class="element_kirp__picture">
-            <img class="element_kirp__picture--img" src="${e.target.dataset.album}">
+            <img class="element_kirp__picture--img" src="${album}">
             <div class="popap_attr_element"></div>
         </div>
         <div class="element_kirp__title">
-            ${e.target.closest('.prev_menu__title-top').children[0].innerText + '<br>(фактура) - ' + e.target.getAttribute('data-menu')}
+            ${text_title + '<br>(фактура) - ' + data_menu}
         </div>
         <div class="element_kirp__input flex_all">
-        <input type="range" class="range_element" data-id="${e.target.getAttribute('data-name')}">
+        <input type="range" class="range_element" data-id="${data_name}">
         <input type="text" class="value_range" disabled>
-        <button class="del_element" data-el="${e.target.getAttribute('data-name')}"><img class="element_delete" data-el="${e.target.getAttribute('data-name')}" src="img/delete.svg"></button>
-        <button class="edit_element" data-el="${e.target.getAttribute('data-name')}"><img class="element_edit" data-el="${e.target.getAttribute('data-name')}" src="img/edit.svg"></button>
+        <button class="del_element" data-el="${data_name}"><img class="element_delete" data-el="${data_name}" src="img/delete.svg"></button>
+        <button class="edit_element" data-el="${data_name}"><img class="element_edit" data-el="${data_name}" src="img/edit.svg"></button>
         </div>
         </div>
     `);
 
     } else {
         let img = new Image();
-        img.src = e.target.getAttribute('data-src');
-        img.setAttribute('data-name', e.target.getAttribute('data-name'));
-        data_element.push(e.target.getAttribute('data-name'));
-        arr_element.push([img, e.target.getAttribute('data-name')]);
+        img.src = target;
+        img.setAttribute('data-name', data_name);
+        data_element.push(data_name);
+        arr_element.push([img, data_name]);
 
         document.querySelector('#all_list_kirpich').insertAdjacentHTML('beforeend', `
-        <div class="element_kirp" data-id="k-${e.target.getAttribute('data-name')}">
+        <div class="element_kirp" data-id="k-${data_name}" data-src="${target}">
         <div class="element_kirp__picture">
-            <img class="element_kirp__picture--img" src="${e.target.dataset.album}">
+            <img class="element_kirp__picture--img" src="${album}">
             <div class="popap_attr_element"></div>
         </div>
         <div class="element_kirp__title">
-        ${e.target.closest('.prev_menu__title-top').children[0].innerText + '<br>(фактура) - ' + e.target.getAttribute('data-menu')}
+            ${text_title + '<br>(фактура) - ' + data_menu}
         </div>
         <div class="element_kirp__input flex_all">
-        <input type="range" class="range_element" data-id="${e.target.getAttribute('data-name')}">
+        <input type="range" class="range_element" data-id="${data_name}">
         <input type="text" class="value_range" disabled>
-        <button class="del_element" data-el="${e.target.getAttribute('data-name')}"><img class="element_delete" data-el="${e.target.getAttribute('data-name')}" src="img/delete.svg"></button>
-        <button class="edit_element" data-el="${e.target.getAttribute('data-name')}"><img class="element_edit" data-el="${e.target.getAttribute('data-name')}" src="img/edit.svg"></button>
+        <button class="del_element" data-el="${data_name}"><img class="element_delete" data-el="${data_name}" src="img/delete.svg"></button>
+        <button class="edit_element" data-el="${data_name}"><img class="element_edit" data-el="${data_name}" src="img/edit.svg"></button>
         </div>
         </div>
     `);
@@ -203,10 +220,10 @@ window.addEventListener('change', function(e) {
                 for (var i = 0; i < 2; i++) {
                     arr_range.push(e.target.value / 2);
                 }
-                draw(e.target.value, state_lozhk, 75, 20, arr_element)
+                draw(e.target.value, state_lozhk, state_arr.length === 0 ? 75 : state_arr[0], state_arr.length === 0 ? 20 : state_arr[1], arr_element)
             } else {
                 arr_range.push(e.target.value);
-                draw(e.target.value, state_lozhk, 75, 20, arr_element)
+                draw(e.target.value, state_lozhk, state_arr.length === 0 ? 75 : state_arr[0], state_arr.length === 0 ? 20 : state_arr[1], arr_element)
             }
         }
     }
@@ -316,6 +333,8 @@ function line_transform(val, i, j) {
 
 
 
+
+
 document.querySelectorAll('.section_line_prv li').forEach(i => {
     i.addEventListener('click', function(e) {
         document.querySelectorAll('.section_line_prv li').forEach(el => {
@@ -324,12 +343,20 @@ document.querySelectorAll('.section_line_prv li').forEach(i => {
         i.classList.add('active');
         state_lozhk = i.getAttribute('data-prv');
         if (i.getAttribute('data-prv') === 'tichk') {
-            col = window.outerWidth / 40
-            draw(arr_range, i.getAttribute('data-prv'), 40, 25, arr_element);
+            col = window.outerWidth / 40;
+            if (document.querySelector('#all_list_kirpich').childElementCount > 1) {
+                draw(arr_range, i.getAttribute('data-prv'), 40, 25, arr_element);
+            } else {
+                draw([33, 33, 33], i.getAttribute('data-prv'), 40, 25, arr_element);
+            }
             state_arr.length = 0;
             state_arr.push(40, 25);
         } else {
-            draw(arr_range, i.getAttribute('data-prv'), 75, 20, arr_element);
+            if (document.querySelector('#all_list_kirpich').childElementCount > 1) {
+                draw(arr_range, i.getAttribute('data-prv'), 75, 20, arr_element);
+            } else {
+                draw([33, 33, 33], i.getAttribute('data-prv'), 75, 20, arr_element);
+            }
             state_arr.length = 0;
             state_arr.push(75, 20);
         }
@@ -423,46 +450,7 @@ function draw(quantity, type_kladka, width, height, ...element) {
                         ctx.shadowOffsetY = 1;
                     }
                 })
-            })
-
-            // if (num_val.includes(j)) {
-            //     //console.log(element[0])
-
-            //     ctx.drawImage(element[0][position][0], 0, 0, width, height, j * (width + 2), i * (height + 2), width, height);
-            // } else {
-
-            //     ctx.drawImage(element[0][rand_numb][0], 0, 0, width, height, j * (width + 2), i * (height + 2), width, height);
-            // }
-
-
-            if (element.length > 0) {
-
-                // num_val.forEach((i, index) => {
-                //     i.forEach((el) => {
-                //         if (el === j) {
-                //             ctx.drawImage(element[0][index][0], 0, 0, width, height, j * (width + 2), i * (height + 2), width, height);
-                //         } else {
-                //             ctx.drawImage(element[0][rand_numb][0], 0, 0, width, height, j * (width + 2), i * (height + 2), width, height);
-                //         }
-                //     });
-                // });
-
-                // for (let s = 0; s < element[0].length; s++) {
-                //     rand_numb = 0;
-                //     rand_numb = getUniques(0, element[0].length - 1, 1);
-
-
-
-                //     if (num_val[s] !== undefined) {
-                //         if (num_val[s].includes(j)) {
-                //             ctx.drawImage(element[0][s][0], 0, 0, width, height, j * (width + 2), i * (height + 2), width, height);
-                //         } else {
-                //             ctx.drawImage(element[0][rand_numb][0], 0, 0, width, height, j * (width + 2), i * (height + 2), width, height);
-                //         }
-                //     }
-
-                // }
-            }
+            });
 
         }
     }
@@ -567,8 +555,8 @@ function delete_item(e) {
         if (e.target.closest('.element_kirp').hasAttribute('data-src')) {
 
             e.target.closest('.element_kirp').dataset.src.split(',').forEach(els => {
-                delete_data_arr(e.target.dataset.el);
-                delete_arr_element(e.target.dataset.el);
+                delete_data_arr(e.target.getAttribute('data-el'));
+                delete_arr_element(e.target.getAttribute('data-el'));
             });
         } else {
             delete_data_arr(id);
@@ -577,6 +565,41 @@ function delete_item(e) {
 
         e.target.closest('.element_kirp').remove();
 
+        arr_range.length = 0;
+
+        if (document.querySelectorAll('.range_element').length > 1) {
+            let amount_element = document.querySelector('#all_list_kirpich').childElementCount;
+            document.querySelectorAll('.range_element').forEach(el => {
+                if (el.closest('.element_kirp').hasAttribute('data-src') === false) {
+                    arr_range.push(el.value)
+                } else {
+                    for (var i = 0; i < el.closest('.element_kirp').dataset.src.split(',').length; i++) {
+                        arr_range.push((100 / amount_element) / el.closest('.element_kirp').dataset.src.split(',').length);
+                    }
+                }
+            });
+        } else {
+            arr_range.push(33, 33, 33)
+        }
+
+
+
+        if (document.querySelector('#all_list_kirpich').childElementCount === 0) {
+            document.querySelectorAll('.section_line_kirpich div').forEach(i => {
+                i.setAttribute('data-display', 'false');
+            });
+            document.querySelector('.section_line_kirpich').setAttribute('data-display', 'true');
+            document.querySelector('.first_cheme').setAttribute('data-display', 'true');
+            draw();
+            document.querySelectorAll('.menu_all_kirp').forEach(elem => {
+                elem.classList.remove('active');
+            });
+            state_arr.length = 0;
+            state_arr.push(75, 20);
+            state_lozhk = 'lozhk-1';
+        } else {
+            setTimeout(() => draw(arr_range, state_lozhk, state_arr.length === 0 ? 75 : state_arr[0], state_arr.length === 0 ? 20 : state_arr[1], arr_element), 100);
+        }
     }
 }
 
@@ -591,13 +614,28 @@ function delete_data_arr(arg) {
 }
 
 function delete_arr_element(arg) {
-    for (let f = 0; f < arr_element.length; f++) {
-        if (arr_element[f][0].length !== 0) {
-            if (arr_element[f][0].getAttribute('data-name').includes(arg)) {
-                arr_element.splice(f, 1);
+    arr_element.forEach((i, ind) => {
+        arr_element[ind].some((al, index) => {
+            if (al === arg) {
+                console.log(ind);
+                arr_element.splice(ind, 1);
             }
-        }
-    }
+        });
+    });
+    // arr_element.filter((i, index) => {
+
+    //     if (i[0].getAttribute('data-name').includes(arg)) {
+    //         console.log(arg)
+    //         arr_element.splice(index, 1);
+    //     }
+    // });
+    // for (let f = 0; f < arr_element.length; f++) {
+    //     if (arr_element[f][0].length !== 0) {
+    //         if (arr_element[f][0].getAttribute('data-name').includes(arg)) {
+    //             arr_element.splice(f, 1);
+    //         }
+    //     }
+    // }
 }
 
 document.querySelector('.container_element').addEventListener('click', function(e) {
