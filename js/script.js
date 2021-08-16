@@ -421,7 +421,7 @@ function draw(quantity, type_kladka, width, height, ...element) {
         });
     }
 
-    console.log(quantity_numbers, type_kladka, width, height, ...element)
+    //console.log(quantity_numbers, type_kladka, width, height, ...element)
 
 
     // for (var el = 0; el < quantity.length; el++) {
@@ -618,7 +618,6 @@ function delete_arr_element(arg) {
     arr_element.forEach((i, ind) => {
         arr_element[ind].some((al, index) => {
             if (al === arg) {
-                console.log(ind);
                 arr_element.splice(ind, 1);
             }
         });
