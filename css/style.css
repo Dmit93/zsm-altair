@@ -767,6 +767,7 @@ ul.menu_all_kirp li {
 
 .pdf_section__kladka {
     overflow: hidden;
+    height:370px;
 }
 
 .pdf_section__kladka img {
