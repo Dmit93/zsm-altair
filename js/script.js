@@ -264,17 +264,150 @@ function getUniques(min, max) {
 
 
 
+function color_show(color) {
+    // ctx.globalCompositeOperation = 'source-in'
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, canvas_app.width, canvas_app.height);
+}
 
+function create_pdf(picture) {
+    //  html2canvas(document.querySelector("#canvas_app")).then(function(data) {
+    let logo = document.querySelector('.logo img').getAttribute('src');
+    let perev_name = document.querySelector('.section_line_prv .active .prv_title').innerText;
+    let perev_smesh = document.querySelector('.section_line_prv .active .prv_text').innerText;
+
+    let table = '';
+    document.querySelectorAll('#all_list_kirpich .element_kirp').forEach((i, index, arr) => {
+        if (i.querySelector('.value_range').value === '') {
+            let procent = 100 / arr.length;
+            let name = i.querySelector('.element_kirp__title').innerText.split('(')[0];
+            let name_facture = i.querySelector('.element_kirp__title').innerText.split('-')[1];
+            let img = i.querySelector('.element_kirp__picture--img').getAttribute('src');
+            arr.length !== index + 1 ? table += `${img} | ${name} <br>(фактура) - ${name_facture} | ${procent} :` : table += `${img} | ${name} <br>(фактура) - ${name_facture} | ${procent}`;
+        } else {
+            let procent = i.querySelector('.range_element').value;
+            let name = i.querySelector('.element_kirp__title').innerText.split('(')[0];
+            let name_facture = i.querySelector('.element_kirp__title').innerText.split('-')[1];
+            let img = i.querySelector('.element_kirp__picture--img').getAttribute('src');
+            arr.length !== index + 1 ? table += `${img} | ${name} <br>(фактура) - ${name_facture} | ${procent} :` : table += `${img} | ${name} <br>(фактура) - ${name_facture} | ${procent}`;
+        }
+    });
+
+    let text_show = (document.querySelector('.section_line_show li.active p') !== null) ? document.querySelector('.section_line_show li.active p').innerText : false;
+
+    let f = '';
+    table.split(':').forEach((i, idx, arr) => {
+        f += `
+                <tr>
+                    <td><img src="${i.split('|')[0]}"></td>
+                    <td>${i.split('|')[1]}</td>
+                    <td>${Math.round(i.split('|')[2])}</td>
+                </tr>
+            `;
+    });
+
+
+
+    let html_view = `
+        <div class="pdf_section">
+            <img src="${logo}">
+            <div class="pdf_section__kladka">
+                <img src="${picture}">
+            </div>
+            <div class="pdf_section__info">
+                <div class="pdf_section__left">
+                    <p>Перевязка: ${perev_name} <br> ${perev_smesh}${text_show !== false ? `<br>Шов: ${text_show}` : ''}</p>
+                    
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>Название</td>
+                                <td>%</td>
+                            </tr>
+                            ${f}
+                        </tbody>
+                    </table>    
+                </div>
+                <div class="pdf_section__right">
+                    <p>ООО "Альтаир"</p>
+                    <p>426039, Удмуртия, г. Ижевск, Воткинское шоссе, 31</p>
+                    <p>Тел: +7 (3412) 998-700</p>
+                </div>
+            </div>
+        </div>
+    `;
+        document.querySelector('.pdf_section_load').innerHTML = '';
+        document.querySelector('.pdf_section_load').insertAdjacentHTML('afterbegin', html_view);
+   // });
+}
+
+function download_jpg(data) {
+
+    // let link = document.getElementById('link_jpg');
+    // let src_link = '';
+    // src_link = data.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream");
+    // link.setAttribute('download', 'picture.jpg');
+    // link.setAttribute('href', src_link);
+
+    let link = document.createElement("a");
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.download = "picture.jpg";
+    link.href = data.toDataURL();
+    link.target = '_blank';
+    link.click();
+    link.remove();
+
+}
 
 document.querySelector('#link_jpg').addEventListener('click', function(e) {
-    var link = document.getElementById('link_jpg');
-    link.setAttribute('download', 'picture.png');
-    link.setAttribute('href', example.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"));
+    // let link = document.getElementById('link_jpg');
+    // link.setAttribute('download', 'picture.png');
+    // link.setAttribute('href', example.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"));
+    let this_is = this;
+    let img = this.innerHTML;add_loader(this_is);
+    html2canvas(document.querySelector("#canvas_app")).then(function(data) {        
+        download_jpg(data);
+        remove_loader(this_is, 'link_jpg', img);
+    });
 });
 
+function add_loader(element){
+    element.removeAttribute('id');
+    element.innerHTML = '<div class="circle-loader"><div class="checkmark draw"></div></div>';
+}
+
+function remove_loader(element, id, img){
+    document.querySelector('.circle-loader').classList.add('load-complete');
+    document.querySelector('.checkmark').style.display = 'block';
+    let logo = img;
+    setTimeout(() => {
+        element.innerHTML = logo;
+        element.setAttribute('id', id);
+    }, 1000);
+}
+
+
 document.querySelector('#link_pdf').addEventListener('click', function(e) {
-    let pdf = new jsPDF();
-    pdf.addImage(example.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"), 'JPEG', 15, 40, 180, 100);
+    let this_is = this;
+    let img = this.innerHTML;
+    add_loader(this);
+    html2canvas(document.querySelector("#canvas_app")).then(function(data_canvas) {
+        create_pdf(data_canvas.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"));
+        html2canvas(document.querySelector(".pdf_section")).then(function(data) {
+            let pdf = new jsPDF("p", "mm", "a4");
+            let height = document.querySelector('.pdf_section_load').clientHeight / 4;
+            pdf.addImage(data.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"), 'JPEG', 15, 10, 180, height, '', 'NONE');
+            pdf.save('picture.pdf');
+            remove_loader(this_is, 'link_pdf', img);
+        });
+    });
+
+    // pdf.setFontSize(40);
+    // pdf.text("РУССКИЙOctonyan loves jsPDF", 35, 25);
+   
+    //pdf.addImage(example.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"), 'JPEG', 15, 40, 180, 100);
 
     // var callAddFont = function() {
     //     this.addFileToVFS('NotoSans-Regular-normal.ttf', font);
@@ -288,16 +421,17 @@ document.querySelector('#link_pdf').addEventListener('click', function(e) {
 
     // pdf.setFont('PTSans'); // set font
     // pdf.setFontSize(10);
-    pdf.text("А ну чики брики и в дамки!", 10, 10);
-    //pdf.text('Перевязка', 0, 200);
-    pdf.save('picture.pdf');
+    // pdf.text("А ну чики брики и в дамки!", 10, 10);
+    // //pdf.text('Перевязка', 0, 200);
+    // pdf.save('picture.pdf');
+
 });
 
 function line_transform(val, i, j) {
     if (val === undefined || val === 'lozhk-1' || val === '') {
         if (i % 2 === 1) {
             if (j === 0) {
-                ctx.translate(width_kirpich / 2, 0);
+                ctx.translate(-(width_kirpich / 2), 0);
             }
         } else {
             ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -487,6 +621,7 @@ document.querySelectorAll('.section_line_show li').forEach(i => {
         });
         i.classList.add('active');
         let color = i.getAttribute('data-color');
+        //color_show(color);
         document.querySelector('#canvas_app').style.background = 'url(' + color + ')';
     });
 });
