@@ -692,6 +692,169 @@ ul.menu_all_kirp li {
     cursor: pointer;
 }
 
+.pdf_section {
+    width: 780px;
+}
+
+.pdf_section>img {
+    width: 100px;
+    display: flex;
+    margin: 20px auto;
+}
+
+.pdf_section table {
+    border-collapse: collapse;
+    width: 100%
+}
+
+.pdf_section table tr {
+    height: 57px;
+}
+
+.pdf_section table tr:not(:first-child) td:nth-of-type(2) {
+    margin-left: 15px;
+    padding-left: 15px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.pdf_section table tr:not(:first-child) td:nth-of-type(3) {
+    text-align: center;
+}
+
+.pdf_section table tr td:first-child {
+    width: 150px
+}
+
+.pdf_section table tr img,
+.pdf_section__left {
+    width: 100%;
+}
+
+.pdf_section table tr:not(:last-child) {
+    border-bottom: 1px solid #ebebeb;
+}
+
+.pdf_section table tr:first-child {
+    background: var(--color);
+    color: #fff;
+    text-align: center;
+    height: 40px;
+}
+
+.pdf_section table tr:first-child td:nth-of-type(2) {
+    padding-right: 120px
+}
+
+.pdf_section__left>p {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.pdf_section__right {
+    width: 100%;
+    text-align: right;
+    margin-top: 22px;
+    font-size: 15px;
+}
+
+.pdf_section_load {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.pdf_section__kladka {
+    overflow: hidden;
+}
+
+.pdf_section__kladka img {
+    width: 100%;
+    transform: scale(2);
+    height: 370px;
+    object-fit: cover;
+}
+
+.download_box__text {
+    display: none
+}
+
+.circle-loader {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-left-color: #5cb85c;
+    animation: loader-spin 1.2s infinite linear;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+}
+
+.load-complete {
+    -webkit-animation: none;
+    animation: none;
+    border-color: #5cb85c;
+    transition: border 500ms ease-out;
+}
+
+.checkmark {
+    display: none;
+}
+
+.checkmark.draw:after {
+    animation-duration: 800ms;
+    animation-timing-function: ease;
+    animation-name: checkmark;
+    transform: scaleX(-1) rotate(135deg);
+}
+
+.checkmark:after {
+    opacity: 1;
+    height: 24px;
+    width: 11px;
+    transform-origin: left top;
+    border-right: 3px solid #5cb85c;
+    border-top: 3px solid #5cb85c;
+    content: "";
+    left: 11px;
+    top: 26px;
+    position: absolute;
+}
+
+@keyframes loader-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes checkmark {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 1;
+    }
+    20% {
+        height: 0;
+        width: 11px;
+        opacity: 1;
+    }
+    40% {
+        height: 24px;
+        width: 11px;
+        opacity: 1;
+    }
+    100% {
+        height: 24px;
+        width: 11px;
+        opacity: 1;
+    }
+}
+
 @media (max-width:600px) {
     .popap_open_section {
         display: flex
