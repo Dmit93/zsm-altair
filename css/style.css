@@ -587,6 +587,16 @@ input[type="text"]:focus {
     border-radius: 12px;
 }
 
+.download_box__hover--div a span:before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: -9px;
+    display: block;
+    width: 44px;
+}
+
 .download_box__hover--div a span:hover canvas {
     object-position: 100%;
 }
