@@ -534,11 +534,61 @@ input[type="text"]:focus {
 
 #link_jpg {
     margin-right: 10px;
-    z-index: 99;
+    z-index: 999;
 }
 
 .download_box__hover--div {
     cursor: pointer;
+}
+
+.download_box__hover--div a span {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: 317px;
+    position: absolute;
+    width: 245px;
+    background: #fff;
+    top: -186px;
+    right: -248px;
+    border-radius: 12px;
+}
+
+.download_box__hover--div a:hover span {
+    display: flex;
+}
+
+.download_box__hover--div a {
+    position: relative;
+}
+
+.download_box__hover--div a canvas {
+    width: 100% !important;
+    height: 86% !important;
+    object-fit: cover;
+    object-position: 9%;
+    transition: 2s ease;
+}
+
+.download_box__hover--div a span p {
+    position: absolute;
+    color: #fff;
+    z-index: 9
+}
+
+.download_box__hover--div a span:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(12, 1, 1, 0.555);
+    border-radius: 12px;
+}
+
+.download_box__hover--div a span:hover canvas {
+    object-position: 100%;
 }
 
 #link_pdf {
@@ -580,6 +630,11 @@ ul.prev_menu li {
 ul.prev_menu>li {
     margin-bottom: 6px;
     height: 77px;
+    transition: .2s ease
+}
+
+ul.prev_menu>li:hover {
+    filter: none !important
 }
 
 .prev_menu {
@@ -767,7 +822,6 @@ ul.menu_all_kirp li {
 
 .pdf_section__kladka {
     overflow: hidden;
-    height:370px;
 }
 
 .pdf_section__kladka img {
