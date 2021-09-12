@@ -140,9 +140,8 @@ function work_add_item(e) {
         }
     }
 
-    // if (e.target.classList.contains('range_element')) {
-    //     e.target.nextElementSibling.value = e.target.value
-    // }
+    setTimeout(() => document.querySelector('#canvas_app').getAttribute('style') === null ? document.querySelector('#canvas_app').style.background = 'url("img/show/belyi.png")' : '', 500);
+
 }
 
 function add_item(e) {
@@ -297,8 +296,8 @@ window.addEventListener('change', function(e) {
 
 
 function getUniques(min, max) {
-    let random_start = min, // От какого генерировать
-        random_end = max, // До какого генерировать
+    let random_start = min,
+        random_end = max,
         array = [];
 
 
@@ -322,7 +321,6 @@ function color_show(color) {
 }
 
 function create_pdf(picture) {
-    //  html2canvas(document.querySelector("#canvas_app")).then(function(data) {
     let logo = document.querySelector('.logo img').getAttribute('src');
     let perev_name = document.querySelector('.section_line_prv .active .prv_title').innerText;
     let perev_smesh = document.querySelector('.section_line_prv .active .prv_text').innerText;
@@ -394,13 +392,6 @@ function create_pdf(picture) {
 }
 
 function download_jpg(data) {
-
-    // let link = document.getElementById('link_jpg');
-    // let src_link = '';
-    // src_link = data.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream");
-    // link.setAttribute('download', 'picture.jpg');
-    // link.setAttribute('href', src_link);
-
     let link = document.createElement("a");
     link.style.display = 'none';
     document.body.appendChild(link);
@@ -413,9 +404,6 @@ function download_jpg(data) {
 }
 
 document.querySelector('#link_jpg').addEventListener('click', function(e) {
-    // let link = document.getElementById('link_jpg');
-    // link.setAttribute('download', 'picture.png');
-    // link.setAttribute('href', example.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"));
     let this_is = this;
     let img = this.innerHTML;
     add_loader(this_is);
@@ -455,7 +443,6 @@ document.querySelector('.download_box__hover--div').addEventListener('mouseover'
                 });
                 break;
             case "link_pdf":
-               // add_loader(e.target);
                 document.querySelector('#link_pdf span').innerHTML = '<div class="circle-loader"><div class="checkmark draw"></div></div>';
                 html2canvas(document.querySelector("#canvas_app")).then(function(data_canvas) {
                     create_pdf(data_canvas.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"));
@@ -488,27 +475,6 @@ document.querySelector('#link_pdf').addEventListener('click', function(e) {
             remove_loader(this_is, 'link_pdf', img);
         });
     });
-
-    // pdf.setFontSize(40);
-    // pdf.text("РУССКИЙOctonyan loves jsPDF", 35, 25);
-   
-    //pdf.addImage(example.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"), 'JPEG', 15, 40, 180, 100);
-
-    // var callAddFont = function() {
-    //     this.addFileToVFS('NotoSans-Regular-normal.ttf', font);
-    //     this.addFont('NotoSans-Regular-normal.ttf', 'NotoSans-Regular', 'normal');
-    // };
-    // jsPDF.API.events.push(['addFonts', callAddFont])
-
-    // pdf.addFileToVFS('PTSans-Regular-normal.ttf', PTSans);
-    // // pdf.addFileToVFS("../fonts/PTSans-Regular.ttf", PTSans);
-    // pdf.addFont('../fonts/PTSans-Regular.ttf', 'PTSans', 'normal');
-
-    // pdf.setFont('PTSans'); // set font
-    // pdf.setFontSize(10);
-    // pdf.text("А ну чики брики и в дамки!", 10, 10);
-    // //pdf.text('Перевязка', 0, 200);
-    // pdf.save('picture.pdf');
 
 });
 
@@ -887,20 +853,6 @@ function delete_arr_element(arg) {
             }
         });
     });
-    // arr_element.filter((i, index) => {
-
-    //     if (i[0].getAttribute('data-name').includes(arg)) {
-    //         console.log(arg)
-    //         arr_element.splice(index, 1);
-    //     }
-    // });
-    // for (let f = 0; f < arr_element.length; f++) {
-    //     if (arr_element[f][0].length !== 0) {
-    //         if (arr_element[f][0].getAttribute('data-name').includes(arg)) {
-    //             arr_element.splice(f, 1);
-    //         }
-    //     }
-    // }
 }
 
 document.querySelector('.container_element').addEventListener('click', function(e) {
