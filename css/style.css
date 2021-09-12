@@ -720,9 +720,13 @@ ul.menu_all_kirp li {
     display: flex;
 }
 
-.menu_all_kirp::-webkit-scrollbar,
 .list_kirpich::-webkit-scrollbar,
 #all_list_kirpich::-webkit-scrollbar {
+    width: 5px;
+    background-color: #ffffff85
+}
+
+.menu_all_kirp::-webkit-scrollbar {
     width: 4px;
     background-color: #ffffff85
 }
