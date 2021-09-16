@@ -1003,6 +1003,12 @@ ul.menu_all_kirp li {
     }
 }
 
+@media (max-width:1200px) {
+    .sidebar_left{
+        width:9%   
+    }
+}
+
 @font-face {
     font-family: 'ubuntu';
     src: url('../fonts/ubuntu.ttf') format('truetype');
