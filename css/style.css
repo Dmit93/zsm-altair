@@ -928,7 +928,7 @@ ul.menu_all_kirp li {
     .popap_open_section {
         display: flex
     }
-    .sidebar_left {
+    div.sidebar_left {
         padding-top: 0px;
         margin: 0;
         max-height: 133px;
@@ -1005,7 +1005,7 @@ ul.menu_all_kirp li {
 
 @media (max-width:1200px) {
     .sidebar_left{
-        width:8%   
+        width:100px  
     }
 }
 
